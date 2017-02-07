@@ -1,0 +1,25 @@
+<!doctype html>
+<title>EC2 Instances from BP-CORE</title>
+{% if instances %}
+    <table style="margin-left: auto; margin-right: auto;" border="1">
+      <tbody>
+        {% for ec2 in instances %}
+          <tr>
+          <td>{{ ec2['instName'] }}</td>
+          <td>{{ ec2['instId'] }}</td>
+          <td>{{ ec2['instType'] }}</td>
+          <td>{{ ec2['instPrivIp'] }}</td>
+          <td>{{ ec2['instState'] }}</td>
+          {% if ec2['instState'] == 'stopped' %}
+            <td><button type="button" class="button" onclick="window.location.href='/poweron/{{ ec2['instId'] }}'">Ligar</button></td>
+          {% else %}
+            <td><button type="button" class="button" onclick="window.location.href='/poweroff/{{ ec2['instId'] }}'">Desligar</button></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </br>
+{% else %}
+    <h1>Error</h1>
+{% endif %}
