@@ -1,25 +1,44 @@
 <!doctype html>
+<html>
 <title>EC2 Instances from BP-CORE</title>
-{% if instances %}
-    <table style="margin-left: auto; margin-right: auto;" border="1">
-      <tbody>
-        {% for ec2 in instances %}
-          <tr>
-          <td>{{ ec2['instName'] }}</td>
-          <td>{{ ec2['instId'] }}</td>
-          <td>{{ ec2['instType'] }}</td>
-          <td>{{ ec2['instPrivIp'] }}</td>
-          <td>{{ ec2['instState'] }}</td>
-          {% if ec2['instState'] == 'stopped' %}
-            <td><button type="button" class="button" onclick="window.location.href='/poweron/{{ ec2['instId'] }}'">Ligar</button></td>
-          {% else %}
-            <td><button type="button" class="button" onclick="window.location.href='/poweroff/{{ ec2['instId'] }}'">Desligar</button></td>
-          {% endif %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    </br>
-{% else %}
-    <h1>Error</h1>
-{% endif %}
+  <head>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='table.css') }}">
+  </head>
+  {% if instances %}
+    <div class="datagrid">
+       <table>
+          <thead>
+             <tr>
+                <th>Instance Name</th>
+                <th>Instance ID</th>
+                <th>Type</th>
+                <th>Private IP</th>
+                <th>Status</th>
+                <th>Tag: Sistema</th>
+                <th>Action</th>
+             </tr>
+          </thead>
+          <tbody>
+            {% for ec2 in instances %}
+               <tr class="alt">
+                  <td>{{ ec2['instName'] }}</td>
+                  <td>{{ ec2['instId'] }}</td>
+                  <td>{{ ec2['instType'] }}</td>
+                  <td>{{ ec2['instPrivIp'] }}</td>
+                  <td>{{ ec2['instState'] }}</td>
+                  <td>{{ ec2['Sistema'] }}</td>
+                  {% if ec2['instState'] == 'stopped' %}
+                    <td><button type="button" class="button" onclick="window.location.href='/poweron/{{ ec2['instId'] }}'">Ligar</button></td>
+                  {% else %}
+                    <td><button type="button" class="button" onclick="window.location.href='/poweroff/{{ ec2['instId'] }}'">Desligar</button></td>
+                  {% endif %}
+               </tr>
+            {% endfor %}
+          </tbody>
+       </table>
+       </br>
+    </div>
+  {% else %}
+      <h1>Error</h1>
+  {% endif %}
+</html>

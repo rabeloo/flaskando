@@ -2,14 +2,17 @@
 from flask import render_template
 from app import app
 from functions import *
+import ConfigParser
 
-profile = 'bp-core'
-region = 'sa-east-1'
+C = ConfigParser.RawConfigParser()
+C.read('config.cfg')
+profile = C.get('aws', 'profile')
+region = C.get('aws', 'region')
 
 @app.route('/')
 def home():
-    allInstances = listInstances(profile, region)
-    return render_template('index.html', instances=allInstances)
+    all_instances = list_instances(profile, region)
+    return render_template('index.html', instances=all_instances)
 
 @app.route('/poweron/<instanceid>')
 def poweron(instanceid):
