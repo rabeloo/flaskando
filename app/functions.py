@@ -1,14 +1,22 @@
 import boto3
 import ConfigParser
+from os.path import expanduser
 
 C = ConfigParser.RawConfigParser()
 C.read('config.cfg')
 filter_by_tag = C.get('aws', 'tags').split(',')
 
-
 def init_session(profile, region):
     ses = boto3.session.Session(profile_name=profile,region_name=region)
     return ses.resource('ec2')
+
+def list_accounts():
+    accounts = []
+    credentials_file = expanduser("~/.aws/credentials")
+    ac = ConfigParser.RawConfigParser()
+    ac.read(credentials_file)
+    accounts = ac.sections()
+    return accounts
 
 def list_instances(profile, region):
     ec2 = init_session(profile, region)

@@ -3,6 +3,22 @@
 <title>EC2 Instances from BP-CORE</title>
   <head>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='table.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='dropdown.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='dropdown.js') }}"></script>
+    <div class="header">
+      <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Accounts</button>
+        <div id="myDropdown" class="dropdown-content">
+          {% if accounts %}
+            {% for account in accounts %}
+            <a href="#">{{ account }}</a>
+            {% endfor %}
+          {% else %}
+            Error. Verify Credentials file.
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </head>
   {% if instances %}
     <div class="datagrid">

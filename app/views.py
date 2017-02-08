@@ -11,8 +11,9 @@ region = C.get('aws', 'region')
 
 @app.route('/')
 def home():
+    all_accounts = list_accounts()
     all_instances = list_instances(profile, region)
-    return render_template('index.html', instances=all_instances)
+    return render_template('index.html', instances=all_instances, accounts=all_accounts)
 
 @app.route('/poweron/<instanceid>')
 def poweron(instanceid):
